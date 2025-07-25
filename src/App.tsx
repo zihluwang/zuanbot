@@ -9,9 +9,19 @@ enum Level {
 function App() {
   const [greetMsg, setGreetMsg] = useState<string>("")
   const [level, setLevel] = useState<Level>(Level.min)
+  const [dbInfo, setDbInfo] = useState<string>("")
 
   async function getMessage() {
     setGreetMsg(await invoke("get_message", { level }))
+  }
+
+  async function queryDatabase() {
+    try {
+      const result = await invoke("query_database")
+      setDbInfo(result as string)
+    } catch (error) {
+      setDbInfo(`Error: ${error}`)
+    }
   }
 
   function onChange(event: React.ChangeEvent<HTMLSelectElement>) {
@@ -37,6 +47,17 @@ function App() {
         </button>
       </div>
       <p>{greetMsg}</p>
+      
+      <div className="row">
+        <button
+          type="button"
+          onClick={() => {
+            void queryDatabase()
+          }}>
+          Query Database
+        </button>
+      </div>
+      <p>{dbInfo}</p>
     </main>
   )
 }
