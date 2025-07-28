@@ -1,6 +1,6 @@
 [package]
 name = "zuanbot"
-version = "0.1.0-alpha"
+version = "0.1.0-dev01"
 description = "A Tauri App"
 authors = ["zihluwang"]
 edition = "2021"

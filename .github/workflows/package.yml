@@ -39,26 +39,42 @@ jobs:
           node-version: 20
           cache: 'pnpm'
 
+      - name: Install Rust Stable
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ${{ matrix.platform == 'macos-latest' && 'aarch64-apple-darwin,x86_64-apple-darwin' || '' }}
+
+      - name: Rust Cache
+        uses: swatinem/rust-cache@v2
+        with:
+          workspaces: './src-tauri -> target'
+
       - name: Install Dependencies
         run: pnpm install
 
       - name: Build
-        run: pnpm tauri build
-
-      - name: Upload Artefact for Windows
-        if: matrix.platform == 'windows-latest'
-        uses: actions/upload-artifact@v4
+        uses: tauri-apps/tauri-action@v0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          name: Installers
-          path: |
-            D:\a\zuanbot\zuanbot\src-tauri\target\release\bundle\msi\zuanbot_${{ github.event.release.tag_name }}_x64_en-US.msi
-            D:\a\zuanbot\zuanbot\src-tauri\target\release\bundle\nsis\zuanbot_${{ github.event.release.tag_name }}_x64-setup.exe
+          tagName: __VERSION__
+          releaseName: 'v__VERSION__'
+          args: ${{ matrix.args }}
 
-      - name: Upload Artefact
-        if: matrix.platform == 'macos-latest'
-        uses: actions/upload-artifact@v4
-        with:
-          name: Installers
-          path: |
-            /Users/runner/work/zuanbot/zuanbot/src-tauri/target/release/bundle/dmg/zuanbot_${{ github.event.release.tag_name }}_aarch64.dmg
-            /Users/runner/work/zuanbot/zuanbot/src-tauri/target/release/bundle/dmg/zuanbot_${{ github.event.release.tag_name }}_x64.dmg
+#      - name: Upload Artefact for Windows
+#        if: matrix.platform == 'windows-latest'
+#        uses: actions/upload-artifact@v4
+#        with:
+#          name: Installers
+#          path: |
+#            D:\a\zuanbot\zuanbot\src-tauri\target\release\bundle\msi\zuanbot_${{ github.event.release.tag_name }}_x64_en-US.msi
+#            D:\a\zuanbot\zuanbot\src-tauri\target\release\bundle\nsis\zuanbot_${{ github.event.release.tag_name }}_x64-setup.exe
+#
+#      - name: Upload Artefact
+#        if: matrix.platform == 'macos-latest'
+#        uses: actions/upload-artifact@v4
+#        with:
+#          name: Installers
+#          path: |
+#            /Users/runner/work/zuanbot/zuanbot/src-tauri/target/release/bundle/dmg/zuanbot_${{ github.event.release.tag_name }}_aarch64.dmg
+#            /Users/runner/work/zuanbot/zuanbot/src-tauri/target/release/bundle/dmg/zuanbot_${{ github.event.release.tag_name }}_x64.dmg
