@@ -1,0 +1,57 @@
+name: Package and Publish
+
+on:
+  release:
+    types:
+      - published
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup PNPM
+        uses: pnpm/action-setup@v4.1.0
+        with:
+          version: latest
+
+      - name: Install Dependencies
+        run: pnpm install
+
+      - name: Build
+        run: pnpm tauri build
+
+      - name: Upload Artefact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Microsoft Installer
+          path: |
+            src-tauri/target/release/bundle/msi/zuanbot_${{ github.event.release.tag_name }}_x64.msi
+            src-tauri/target/release/bundle/nsis/zuanbot_${{ github.event.release.tag_name }}_x64-setup.exe
+
+  build-macos:
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup PNPM
+        uses: pnpm/action-setup@v4.1.0
+        with:
+          version: latest
+
+      - name: Install Dependencies
+        run: pnpm install
+
+      - name: Build
+        run: pnpm tauri build
+
+      - name: Upload Artefact
+        uses: actions/upload-artifact@v4
+        with:
+          name: macOS Application Bundle
+          path: src-tauri/target/release/bundle/dmg/zuanbot_${{ github.event.release.tag_name }}_x64.dmg
