@@ -2,12 +2,13 @@ name: Package and Publish
 
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - release
+  pull_request:
+    types:
+      - closed
 
 jobs:
   build:
+    if: github.event.pull_request.merged == true && github.event.pull_request.base.ref == 'main'
     name: Build Application Installer
     permissions:
       contents: write
@@ -61,21 +62,3 @@ jobs:
           tagName: __VERSION__
           releaseName: 'v__VERSION__'
           args: ${{ matrix.args }}
-
-#      - name: Upload Artefact for Windows
-#        if: matrix.platform == 'windows-latest'
-#        uses: actions/upload-artifact@v4
-#        with:
-#          name: Installers
-#          path: |
-#            D:\a\zuanbot\zuanbot\src-tauri\target\release\bundle\msi\zuanbot_${{ github.event.release.tag_name }}_x64_en-US.msi
-#            D:\a\zuanbot\zuanbot\src-tauri\target\release\bundle\nsis\zuanbot_${{ github.event.release.tag_name }}_x64-setup.exe
-#
-#      - name: Upload Artefact
-#        if: matrix.platform == 'macos-latest'
-#        uses: actions/upload-artifact@v4
-#        with:
-#          name: Installers
-#          path: |
-#            /Users/runner/work/zuanbot/zuanbot/src-tauri/target/release/bundle/dmg/zuanbot_${{ github.event.release.tag_name }}_aarch64.dmg
-#            /Users/runner/work/zuanbot/zuanbot/src-tauri/target/release/bundle/dmg/zuanbot_${{ github.event.release.tag_name }}_x64.dmg
