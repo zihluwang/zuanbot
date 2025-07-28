@@ -2,7 +2,7 @@
 
 ![MIT Licence](https://img.shields.io/github/license/zihluwang/zuanbot)
 
-> 本仓库为 [cndiandian/zuanbot](https://github.com/cndiandian/zuanbot) 的客户端版本。
+> 本仓库为 [cndiandian/zuanbot.com](https://github.com/cndiandian/zuanbot.com) 的客户端版本。
 
 ## 有什么用
 
