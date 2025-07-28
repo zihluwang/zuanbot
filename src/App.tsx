@@ -7,7 +7,6 @@ enum Level {
 }
 
 export default function App() {
-  // 文本内容状态
   const [text, setText] = useState<string>("")
   const [isLast, setIsLast] = useState<boolean>(false)
   const [last, setLast] = useState<string>("")
@@ -50,33 +49,33 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-gray-100 text-gray-700 flex flex-col">
-      <header className="bg-purple-700 text-white flex flex-col md:flex-row items-center md:justify-between px-6 py-5 sticky top-0 z-40 shadow-md">
-        <h3 className="text-xl font-semibold mb-2 md:mb-0">骂人宝典</h3>
-        <nav className="flex space-x-6 text-sm md:text-base"></nav>
-      </header>
-
-      <main className="flex-grow max-w-4xl mx-auto p-4">
-        <section className="mb-6 flex flex-wrap justify-center gap-4">
+      <main className="flex-grow max-w-[800px] p-4 row-auto">
+        <section className="mb-6 flex flex-wrap justify-center gap-4 columns-2">
           <button
-            onClick={() => getMessage(Level.min)}
-            className="bg-pink-600 hover:bg-pink-700 text-white font-semibold py-3 px-6 rounded shadow-md transition">
+            onClick={() => getMessage(Level.max)}
+            className="bg-pink-600 hover:bg-pink-700 text-white font-semibold py-3 px-6 rounded-md shadow-md transition">
             😤 火力全开
           </button>
 
           <button
-            onClick={() => getMessage(Level.max)}
-            className="bg-teal-500 hover:bg-teal-600 text-white font-semibold py-3 px-6 rounded shadow-md transition">
+            onClick={() => getMessage(Level.min)}
+            className="bg-teal-500 hover:bg-teal-600 text-white font-semibold py-3 px-6 rounded-md shadow-md transition">
             🙂 口吐莲花
           </button>
         </section>
 
-        {text}
+        <textarea
+          className="mb-6 p-2 border rounded-md block mx-auto w-full max-w-[400px] columns-1"
+          rows={4}
+          value={text}
+          readOnly
+        />
 
         <section className="mb-6 flex flex-wrap justify-center items-center gap-4">
           <button
             onClick={showLast}
             disabled={isLast}
-            className="bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-6 rounded shadow-md transition">
+            className="bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-6 rounded shadow-md transition disabled:bg-[#CCCCCC]">
             上一条
           </button>
 
