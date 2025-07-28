@@ -7,16 +7,31 @@ on:
 
 jobs:
   build-windows:
-    runs-on: windows-latest
+    permissions:
+      contents: write
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - platform: 'macos-latest'
+            args: '--target aarch64-apple-darwin'
+          - platform: 'macos-latest'
+            args: '--target x86_64-apple-darwin'
+          - platform: 'windows-latest'
+            args: ''
+
+    runs-on: ${{ matrix.platform }}
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup PNPM
-        uses: pnpm/action-setup@v4.1.0
+      - name: Setup Node
+        uses: actions/setup-node@v4.4.0
         with:
-          version: latest
+          node-version: 20
+          cache: 'pnpm'
 
       - name: Install Dependencies
         run: pnpm install
@@ -24,34 +39,20 @@ jobs:
       - name: Build
         run: pnpm tauri build
 
-      - name: Upload Artefact
+      - name: Upload Artefact for Windows
+        if: matrix.platform == 'windows-latest'
         uses: actions/upload-artifact@v4
         with:
-          name: Microsoft Installer
+          name: Installers
           path: |
-            src-tauri/target/release/bundle/msi/zuanbot_${{ github.event.release.tag_name }}_x64.msi
-            src-tauri/target/release/bundle/nsis/zuanbot_${{ github.event.release.tag_name }}_x64-setup.exe
-
-  build-macos:
-    runs-on: macos-latest
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup PNPM
-        uses: pnpm/action-setup@v4.1.0
-        with:
-          version: latest
-
-      - name: Install Dependencies
-        run: pnpm install
-
-      - name: Build
-        run: pnpm tauri build
+            D:\a\zuanbot\zuanbot\src-tauri\target\release\bundle\msi\zuanbot_${{ github.event.release.tag_name }}_x64_en-US.msi
+            D:\a\zuanbot\zuanbot\src-tauri\target\release\bundle\nsis\zuanbot_${{ github.event.release.tag_name }}_x64-setup.exe
 
       - name: Upload Artefact
+        if: matrix.platform == 'macos-latest'
         uses: actions/upload-artifact@v4
         with:
-          name: macOS Application Bundle
-          path: src-tauri/target/release/bundle/dmg/zuanbot_${{ github.event.release.tag_name }}_x64.dmg
+          name: Installers
+          path: |
+            /Users/runner/work/zuanbot/zuanbot/src-tauri/target/release/bundle/dmg/zuanbot_${{ github.event.release.tag_name }}_aarch64.dmg
+            /Users/runner/work/zuanbot/zuanbot/src-tauri/target/release/bundle/dmg/zuanbot_${{ github.event.release.tag_name }}_x64.dmg
