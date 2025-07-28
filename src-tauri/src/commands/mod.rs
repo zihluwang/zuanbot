@@ -1,11 +1,6 @@
 use tauri::{State};
 use rusqlite::{OptionalExtension};
-use crate::database::Database; // 自己定义的含互斥锁包装 SQLite 连接的结构
-
-#[tauri::command]
-pub fn greet(name: &str) -> String {
-    format!("Hello, {}! You've been greeted from Rust!", name)
-}
+use crate::database::Database;
 
 #[tauri::command]
 pub async fn get_message(state: State<'_, Database>, level: Option<String>) -> Result<String, String> {
