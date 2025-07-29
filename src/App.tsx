@@ -11,6 +11,8 @@ export default function App() {
     ;(async () => {
       await getMessage()
     })()
+    // 第一条消息，禁用“上一条”功能
+    setIsLast(true)
   }, [])
 
   const getMessage = async (level?: Level) => {
