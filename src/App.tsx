@@ -1,10 +1,6 @@
 import React, { useEffect, useState } from "react"
-import { invoke } from "@tauri-apps/api/core"
-
-enum Level {
-  min = "min",
-  max = "max",
-}
+import { Level } from "@/types"
+import * as service from "@/service"
 
 export default function App() {
   const [text, setText] = useState<string>("")
@@ -22,8 +18,8 @@ export default function App() {
     setLast(text)
 
     // 获取下一条信息
-    const nextMessage = await invoke<string>("get_message", { level })
-    setText(nextMessage)
+    const nextZuanMessage = await service.nextZuan(level)
+    setText(nextZuanMessage)
   }
 
   const showLast = () => {
@@ -43,7 +39,7 @@ export default function App() {
         }
       )
     } else {
-      alert("当前浏览器不支持复制功能")
+      alert("暂时不支持复制功能")
     }
   }
 
