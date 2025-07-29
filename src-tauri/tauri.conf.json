@@ -14,7 +14,11 @@
       {
         "title": "骂人宝典",
         "width": 560,
-        "height": 400
+        "maxWidth": 560,
+        "minWidth": 560,
+        "height": 400,
+        "maxHeight": 400,
+        "minHeight": 400
       }
     ],
     "security": {
