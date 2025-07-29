@@ -29,6 +29,9 @@
     "windows": {
       "wix": {
         "language": "zh-CN"
+      },
+      "webviewInstallMode": {
+        "type": "embedBootstrapper"
       }
     },
     "license": "MIT",
