@@ -8,14 +8,22 @@ export default function App() {
   const [last, setLast] = useState<string>("")
 
   useEffect(() => {
+    // 加载一条祖安语录
     ;(async () => {
       await getMessage()
     })()
-    // 第一条消息，禁用“上一条”功能
+    // 第一条消息，禁用上一条功能
     setIsLast(true)
   }, [])
 
+  /**
+   * 获取一条祖安语录
+   * @param level 语录等级
+   */
   const getMessage = async (level?: Level) => {
+    // 开放上一条功能
+    setIsLast(false)
+
     // 保存上一条信息
     setLast(text)
 
@@ -24,12 +32,17 @@ export default function App() {
     setText(nextZuanMessage)
   }
 
+  /**
+   * 展示上一条祖安语录
+   */
   const showLast = () => {
     setIsLast(true)
     setText(last)
   }
 
-  // 复制文字到剪贴板
+  /**
+   * 复制文字到剪贴板
+   */
   const copyToClipboard = () => {
     if (navigator.clipboard) {
       navigator.clipboard.writeText(text).then(
