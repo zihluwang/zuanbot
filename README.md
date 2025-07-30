@@ -25,6 +25,8 @@
   - Intel: `x64.dmg`
   - Apple Silicon: `aarch64.dmg`
 
+由于没有代码签名，在 Mac 上会因为没有开启允许所有开发者而提示软件损坏，此时可以打开**终端**，并输入 `xattr -d com.apple.quaratine /Applications/zuanbot.app` 再打开软件。
+
 ## 什么原理
 
 收集整理了N条骂人的句子，然后随机读取一条输出即可。
