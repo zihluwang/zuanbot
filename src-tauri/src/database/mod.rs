@@ -30,7 +30,7 @@ impl Database {
 fn get_bundled_database_path(app_handle: &tauri::AppHandle) -> Result<PathBuf> {
     let resource_path = app_handle
         .path()
-        .resolve("data.db", tauri::path::BaseDirectory::Resource)?;
+        .resolve("./resources/data.db", tauri::path::BaseDirectory::Resource)?;
     
     println!("Database path: {:?}", resource_path);
     Ok(resource_path)

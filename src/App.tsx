@@ -1,10 +1,6 @@
 import React, { useEffect, useState } from "react"
-import { invoke } from "@tauri-apps/api/core"
-
-enum Level {
-  min = "min",
-  max = "max",
-}
+import { Level } from "@/types"
+import * as service from "@/service"
 
 export default function App() {
   const [text, setText] = useState<string>("")
@@ -12,26 +8,41 @@ export default function App() {
   const [last, setLast] = useState<string>("")
 
   useEffect(() => {
+    // 加载一条祖安语录
     ;(async () => {
       await getMessage()
     })()
+    // 第一条消息，禁用上一条功能
+    setIsLast(true)
   }, [])
 
+  /**
+   * 获取一条祖安语录
+   * @param level 语录等级
+   */
   const getMessage = async (level?: Level) => {
+    // 开放上一条功能
+    setIsLast(false)
+
     // 保存上一条信息
     setLast(text)
 
     // 获取下一条信息
-    const nextMessage = await invoke<string>("get_message", { level })
-    setText(nextMessage)
+    const nextZuanMessage = await service.nextZuan(level)
+    setText(nextZuanMessage)
   }
 
+  /**
+   * 展示上一条祖安语录
+   */
   const showLast = () => {
     setIsLast(true)
     setText(last)
   }
 
-  // 复制文字到剪贴板
+  /**
+   * 复制文字到剪贴板
+   */
   const copyToClipboard = () => {
     if (navigator.clipboard) {
       navigator.clipboard.writeText(text).then(
@@ -43,7 +54,7 @@ export default function App() {
         }
       )
     } else {
-      alert("当前浏览器不支持复制功能")
+      alert("暂时不支持复制功能")
     }
   }
 

@@ -1,7 +1,7 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
-  "productName": "zuanbot",
-  "version": "0.2.0",
+  "productName": "Zuanbot",
+  "version": "0.2.1",
   "identifier": "io.github.zihluwang.zuanbot",
   "build": {
     "beforeDevCommand": "pnpm dev",
@@ -12,9 +12,13 @@
   "app": {
     "windows": [
       {
-        "title": "骂人宝典",
+        "title": "祖安语录",
         "width": 560,
-        "height": 400
+        "maxWidth": 560,
+        "minWidth": 560,
+        "height": 400,
+        "maxHeight": 400,
+        "minHeight": 400
       }
     ],
     "security": {
@@ -23,7 +27,20 @@
   },
   "bundle": {
     "active": true,
-    "targets": "all",
+    "publisher": "Zihlu Wang",
+    "category": "Utility",
+    "targets": ["dmg", "msi"],
+    "windows": {
+      "wix": {
+        "language": "zh-CN"
+      },
+      "webviewInstallMode": {
+        "type": "embedBootstrapper"
+      }
+    },
+    "license": "MIT",
+    "licenseFile": "./resources/Licence.txt",
+    "copyright": "Data Collected by @cndiandian, Developed by @zihluwang.",
     "icon": [
       "icons/32x32.png",
       "icons/128x128.png",
@@ -32,7 +49,7 @@
       "icons/icon.ico"
     ],
     "resources": [
-      "./data.db"
+      "./resources/data.db"
     ]
   }
 }
