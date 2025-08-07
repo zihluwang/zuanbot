@@ -39,7 +39,7 @@
       }
     },
     "license": "MIT",
-    "licenseFile": "./resources/Licence.txt",
+    "licenseFile": "./resources/EULA-zh_CN.rtf",
     "copyright": "Data Collected by @cndiandian, Developed by @zihluwang.",
     "icon": [
       "icons/32x32.png",
