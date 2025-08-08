@@ -1,6 +1,6 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
-  "productName": "祖安语录",
+  "productName": "Zuanbot",
   "version": "0.3.1",
   "identifier": "me.zihluwang.zuanbot",
   "build": {
@@ -39,7 +39,7 @@
       }
     },
     "license": "MIT",
-    "licenseFile": "./resources/EULA-zh_CN.rtf",
+    "licenseFile": "./resources/EULA-zh_CN.txt",
     "copyright": "Data Collected by @cndiandian, Developed by @zihluwang.",
     "icon": [
       "icons/32x32.png",
